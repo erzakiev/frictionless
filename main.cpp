@@ -42,34 +42,13 @@ int main(int argc, char *argv[]) {
     // taking the filename string ...
     char const *tableofranksname (argv[1]);
 
-    // reading the initial temperature setting
-    double initialT = strtod(argv[2], &p) ;
-
     // reading how many starts per run without randomizing
-    const int Nstarts = (int) strtol(argv[3], &pp, 10);
+    const int Nstarts = (int) strtol(argv[2], &pp, 10);
 
     // reading the desired number of genes in the resulting solutions
-    const int DesiredNumberOfGenes = (int) strtol(argv[4], &ppp, 10);
-
-    // reading the temperature decrement in [0,1)
-    const double Tdecrement = strtod(argv[5], &pppp);
-
-    // reading the minimum boundary of penalization (exponent of n that the Score will be divided with: S'/(n^minExp);)
-    const double minExp = strtod(argv[6], &ppppp);
-
-    // reading the max penalization boundary (S'/(n^maxExp))
-    const double maxExp = strtod(argv[7], &pppppp);
-
-    // reading the increment for range from minExp to maxExp
-    double Nincrement = strtod(argv[8], &ppppppp);
-
-    // true outputs the global maximum, false outputs the last found solution
-    bool outputGlobalOptimum = (strtol(argv[9], &pppppppp, 10) == 1)? true : false;
-
-    // if true, permute the table of ranks `r` (within each sample separately, for each gene, to get rid of all the signal that exists = randomized permutation/shuffling)
-    bool permute = (strtol(argv[10], &ppppppppp, 10) == 1)? true : false;
+    const int DesiredNumberOfGenes = (int) strtol(argv[3], &ppp, 10);
     
-    const long randomSeed = strtol(argv[11], &pppppppppp, 10);
+    const long randomSeed = strtol(argv[4], &pppppppppp, 10);
 
 
     std::random_device rd; // will be used to obtain a seed for the random number engine
@@ -113,23 +92,14 @@ int main(int argc, char *argv[]) {
     vector<int> firstCellInSample = SampleBoundaries(cellaffiliations);
 
     /***** IF RANDOMIZE THE INPUT TABLE *****/
-    if (permute) PermuteRanksWithinEachGeneInEachSample(r, firstCellInSample, runif, rng);
+//    if (permute) PermuteRanksWithinEachGeneInEachSample(r, firstCellInSample, runif, rng);
+    const int factor=0;
 
     vector <int> BannedGenes;
     //vector <vector <int>> AlreadySeenSolutions;
 
     for (int startcounter = 0; startcounter < Nstarts; startcounter++){ // loop for many starts
         // Repeat for the whole range from minExp to (including) maxExp
-        for (double notfactor = minExp; notfactor <= maxExp; notfactor += Nincrement){ // looping over exponents
-            double factor;
-            if (Nincrement == 0) { // Do we stay on a single alpha?
-                factor = minExp;
-            } else {
-                factor = minExp + roundf(runif(rng)*(maxExp-minExp)*(1/Nincrement))/(1/Nincrement);
-            }
-            //initialT = KnownStartingTemperature(factor); // FIXME
-            /*****  *****/
-            // Vectors of log p-values of Friedman statistic for each sample.
             vector <double> logpvals, logpvals_0; // current one and previous one.
             vector<int> X, X_0, // States = selected + unselected genes + CurrentNumberOfGenes ("ordered" = selected genes first)
                         G, // signature from which to start the search
@@ -168,7 +138,7 @@ int main(int argc, char *argv[]) {
             double startingloss = g;
             //The main simulated annealing (SA) part:
             // Variables pertaining to the main SA loop:
-            double T = initialT, g_opt = 0.0, g_0 = 0, Tmin = 1e-319;
+            double g_opt = 0.0, g_0 = 0, Tmin = 1e-319;
             int nIter = 0;
             vector <double> A_0 = A, B_0 = B, C_0 = C, D_0 = D, logpvals_opt=logpvals, Rc_0 = Rc, S_hats_0 = S_hats, S_opt = S_hats, A_opt = A, B_opt = B, C_opt = C, D_opt = D, Rc_opt = Rc;
             X = X_0; // currently manipulated solution (and previous one)
@@ -304,10 +274,6 @@ int main(int argc, char *argv[]) {
             cout << "\n";
 
             //myfile.close();
-            //no changes in the exponent so we exit:
-            if (Nincrement==0) break;
-
-        } // end of the loop for different exponent factors
     } // end of the loop for multiple starts of SA
 
     return 0;
