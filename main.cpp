@@ -20,7 +20,6 @@
 #include <limits>
 #include <cassert>
 
-//#include "pgamma_from_R.cpp"
 #include "functions2.hpp"
 //#include "functions2.cpp"
 
