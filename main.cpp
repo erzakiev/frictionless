@@ -20,8 +20,8 @@
 #include <limits>
 #include <cassert>
 
-#include "functions2.hpp"
-//#include "functions2.cpp"
+//#include "functions2.hpp"
+#include "functions2.cpp"
 
 typedef std::numeric_limits< double > dbl;
 
