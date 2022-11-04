@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <iterator>
+#include <numeric>
 
 #include <cstdio>
 #include <array>
