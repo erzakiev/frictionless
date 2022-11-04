@@ -3,8 +3,16 @@
 A blackbox statistical optimization approach to find gene signatures of predefined size in multiple single-cell RNA-seq samples. Computationally demanding, thus better suited for an HPC cluster setting, but a more efficient, single-machine-friendly version of the algorithm is in active development (see [Issue #2](https://github.com/erzakiev/frictionless/issues/2)). A version of the algorithm that doesn't require pre-setting the signature size by the user, using penalization of the objective function, was under active development for a long time, but was largely abandoned due to numerous fruitless attempts of fixing it and due to lack of a relevant background theory in the literature (see [Issue #1](https://github.com/erzakiev/frictionless/issues/1)).
 
 ## Installation
-The containerized version of the code, neatly integrated into a snakemake pipeline to spew out only unique signatures, is soon to be delivered.
-As it stands at the moment, the user needs to download all the 4 files in the repository, put them into the same directory, and manually compile the code using a C++ compiler of their choice:
+### Pulling a [singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) container
+```
+singularity pull -U library://erzakiev/default/frictionless:4nov22
+```
+and then run the `frictionless_4nov22.sif` as an executable:
+```
+./frictionless_4nov22.sif allInputMatricesRanked 1 Nrestarts k $(date +%s) >> outputfile
+```
+
+Manual compilation of the code, downloaded from this repo:
 ```
 g++ -O3 main.cpp -o Frictionless
 ```
@@ -41,9 +49,10 @@ We recommend running the algorithm with multiple signature sizes `k`: 10, 20, 30
 srun  -n $SLURM_NNODES   --ntasks-per-node=1   mkdir /local/scratch/tmp/${LOGNAME}_${SLURM_JOB_ID} #
 sbcast -C allInputMatricesRanked /local/scratch/tmp/${LOGNAME}_${SLURM_JOB_ID}/allInputMatricesRanked # putting the input file into a temporary local scratch directory for a super fast shared access by all the nodes
 
-srun ./Frictionless /local/scratch/tmp/${LOGNAME}_${SLURM_JOB_ID}/allInputMatricesRanked 1 1 k ${{SLURM_JOB_ID}}
+srun ./frictionless_4nov22.sif /local/scratch/tmp/${LOGNAME}_${SLURM_JOB_ID}/allInputMatricesRanked 1 1 k ${{SLURM_JOB_ID}}
 
 srun -n $SLURM_NNODES  --ntasks-per-node=1   rm -rf  /local/scratch/tmp/${LOGNAME}_${SLURM_JOB_ID} # removing the temp local storage folder
+
 
 ```
 and run it with 
@@ -54,10 +63,10 @@ for 10,000 parallel instances.
 
 ### Running on a local machine
 ```
-./Frictionless allInputMatricesRanked 1 Nrestarts k Rand.seed >> outputfile
+./frictionless_4nov22.sif allInputMatricesRanked 1 Nrestarts k Rand.seed >> outputfile
 ```
 `Nrestarts` is set by the user to the number of restarts your single instance should perform, each restart produces a single signature
 `Rand.seed` is a random seed, can be set to the Linux epoch time which is a string of digits `$(date +%s)`: 
 ```
-./Frictionless allInputMatricesRanked 1 Nrestarts k $(date +%s) >> outputfile
+./frictionless_4nov22.sif allInputMatricesRanked 1 Nrestarts k $(date +%s) >> outputfile
 ```
