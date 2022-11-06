@@ -12,9 +12,9 @@ and then run the `frictionless_4nov22.sif` as an executable:
 ./frictionless_4nov22.sif allInputMatricesRanked 1 Nrestarts k $(date +%s) >> outputfile
 ```
 
-Manual compilation of the code, downloaded from this repo:
+Manual compilation of the code, downloaded from this repo (the name of the output file is chosen here to be in sync with the containerized version of the pipeline):
 ```
-g++ -O3 main.cpp -o Frictionless
+g++ -O3 main.cpp -o frictionless_4nov22.sif
 ```
 
 ## Usage
