@@ -1,4 +1,4 @@
-//#include "functions2.hpp"
+#include "functions2.hpp"
 #include <fstream>
 #include <vector>
 #include <cmath>
@@ -44,14 +44,14 @@ vector <int> ConvertAffiliationsToInts(const vector<std::string> cellaffiliation
             subcounter = 0;
         }
     }
-    cellaffiliations.push_back(counter+1);
+    cellaffiliations.push_back(counter);
     return cellaffiliations;
 }
 
 double sqrt_logchisq_R(const double score, const int m_i){ // wrapper function that divides the number of degrees of freedom by 2 before feeding into R's normalized incomplete gamma function calculation
         double res = pgamma(score, m_i/2.,2., 0, 1);
         //return (-res)*(-res);
-        return sqrt(sqrt(-res));
+        return sqrt(-res);
 }
 
 // Auxilary function that takes a char* filename argument and returns a 2d dynamic array containing the data
@@ -247,6 +247,12 @@ double objectivefunction(
             }
         }
     }
+                    
+                    int filler;
+                    int poop;
+                    
+                    
+                    
     return g;
 }
 
@@ -322,6 +328,7 @@ double objectivefunction_swap(int geneToSwapIn,
                 whichTumor++;
             }
         }
+    
     return g;
 }
 
@@ -345,8 +352,8 @@ void ComputeSquaredRanksAndTieAdjustments(vector<vector <double> > &SSR,
             buf.push_back(input_table[line][i]); // running sum
             if (cellaffiliations[i] != cellaffiliations[i+1]){// After this, the sample is done
                 std::sort(buf.begin(), buf.end());
-                int tieCounter = 1;
-                double accumulatedSum = 0;
+                unsigned long int tieCounter = 1;
+                unsigned long int accumulatedSum = 0;
                 double rjsqsums = 0;
                 buf.push_back(0); // add sentinel at the end
                 double sampleRankSum=0; // counting sum of all ranks
@@ -354,9 +361,10 @@ void ComputeSquaredRanksAndTieAdjustments(vector<vector <double> > &SSR,
                     sampleRankSum+=buf[j];
                     rjsqsums += buf[j]*buf[j];
                     if(buf[j] != buf[j+1]){ // not a new tie ?
+                        
                         accumulatedSum += tieCounter*tieCounter*tieCounter; // dumping accumulated tiecounter to the cumulative sum
                         tieCounter = 1; //resetting the tie counter to 1
-                    } else { // extend current tie
+                    } else { // extend current tdie
                         tieCounter++; // incrementing tie counter
                     }
                 } // all sample cells done
