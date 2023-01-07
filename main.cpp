@@ -33,7 +33,7 @@ using std::fill;
 using std::map;
 using std::swap;
 
-//
+
 // Main function
 int main(int argc, char *argv[]) {
     // Initialization of variables...
@@ -242,9 +242,9 @@ int main(int argc, char *argv[]) {
              */
             
             
-            cout << factor << "\t|\t" <<  X_opt.back() << "\t|\t" << "max_loss was " << max_loss << "\t|\t" << "start_loss was " << startingloss << "\t|\t" << "rejectioncounter " << rejectioncounter << " out of total " << nIter << " iterations" << "\t|\t" << iter_local_neighbourhood << " iterations locally" << "\t|\t"; // printing out the exponent and how many genes are in the optimal solution
+            cout << X_opt.back() << "\t|\t";; // printing out the exponent and how many genes are in the optimal solution
             //cout << TotalSum << "\t|\t"; // printing out the cumulative (LogPval)^2
-            cout << g_opt << "\t|\t"; // printing out the cumulative (LogPval)^2
+            cout << round2dec(g_opt) << "\t|\t"; // printing out the cumulative (LogPval)^2
             
             /*
             for (int nnn=0; nnn < S_opt.size(); nnn++){
@@ -252,12 +252,11 @@ int main(int argc, char *argv[]) {
             }
             cout << "\t|\t";
              */
-            /*
+            
             for (int nnn=0; nnn < logpvals_opt.size(); nnn++){
-                cout << logpvals_opt[nnn] << "\t"; // printing out the (LogPval)^2 of each tumor separately
+                cout << round2dec(logpvals_opt[nnn]) << "\t"; // printing out the (LogPval)^2 of each tumor separately
             }
-            cout << "\t|\t";
-             */
+            cout << "|\t";
             
             vector<int> GenesToPrint = {X_opt.begin(), X_opt.begin() + X_opt.back()};
             sort(GenesToPrint.begin(), GenesToPrint.end());
