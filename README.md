@@ -92,7 +92,7 @@ Rian 4 3 2 9 10 6 5 7 8 1 10 2 5 1 6 4 8 7 9 3 9 7 2.5 2.5 6 8 5 2.5 10 2.5
 Dsc3 5 9 1 3 10 2 6 7 8 4 10 7 9 2.5 2.5 8 5 2.5 6 2.5 6 3 3 9 10 3 7 3 8 3
 Nudt18 6 10 2.5 8 2.5 7 2.5 5 9 2.5 10 1.5 6 8 7 4 9 5 1.5 3 2 10 2 8 4 5 7 9 6 2
 ```
-generating ~100 signatures of size 3 genes using 20-ish jobs of 5 restarts each:
+and so generating locally using `parallel` ~100 signatures of size 3 genes using 20-ish jobs of 5 restarts each:
 ```
 for i in {1..20}; do echo $RANDOM >> RNGs; done; cat RNGs | sort --n | uniq > RNGs_uniq
 parallel  "./frictionless_latest.sif allInputMatricesRanked 5 3 {} >> Results_parallel" ::: < RNGs_uniq
