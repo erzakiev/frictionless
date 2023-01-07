@@ -76,3 +76,26 @@ where we seed each job instance with a pre-prepared file called `RNGs_uniq`, con
 ```
 for i in {1..200}; do echo $RANDOM >> RNGs; done; cat RNGs | sort --n | uniq > RNGs_uniq
 ```
+A complete, self-contained working example would look like this: 
+
+a dummy input matrix `allInputMatricesRanked` with 3 samples called MEF, Repro, Transfo with 10 genes by 10 cells each:
+```
+MEF MEF MEF MEF MEF MEF MEF MEF MEF MEF Repro Repro Repro Repro Repro Repro Repro Repro Repro Repro Transfo Transfo Transfo Transfo Transfo Transfo Transfo Transfo Transfo Transfo
+Dnm3 8 2 5 10 7 4 6 2 2 9 3 9 7 1.5 1.5 10 6 5 8 4 4 2 2 2 6 9 7 8 5 10
+Ubald2 7 3.5 9 3.5 3.5 8 3.5 3.5 10 3.5 2 5 6 10 2 2 4 8 7 9 9 2 2 4 10 7 5 8 6 2
+Col6a1 4 3 1 8 9 5 2 6 7 10 7 6 3 3 3 3 3 9 8 10 6 2 4 5 10 8 3 1 9 7
+Clec4a2 3 8 3 3 6 10 7 3 3 9 3 1.5 10 5 6 4 7 9 1.5 8 4 2 2 8 7 2 10 9 6 5
+Gm42372 10 1.5 7 5 4 9 1.5 6 8 3 7 1.5 3 1.5 10 4 8 5 9 6 6 2 5 7 1 3 4 8 10 9
+Ret 2 4 10 2 8 9 7 5 2 6 9 5 4 7 10 2 6 3 8 1 8 10 6 7 1 4 3 5 9 2
+Sema3d 10 1 7 3 6 8 5 2 4 9 9 2.5 7 2.5 5 6 2.5 8 10 2.5 4 6 9 8 10 7 5 2 2 2
+Rian 4 3 2 9 10 6 5 7 8 1 10 2 5 1 6 4 8 7 9 3 9 7 2.5 2.5 6 8 5 2.5 10 2.5
+Dsc3 5 9 1 3 10 2 6 7 8 4 10 7 9 2.5 2.5 8 5 2.5 6 2.5 6 3 3 9 10 3 7 3 8 3
+Nudt18 6 10 2.5 8 2.5 7 2.5 5 9 2.5 10 1.5 6 8 7 4 9 5 1.5 3 2 10 2 8 4 5 7 9 6 2
+```
+generating ~100 signatures of size 3 genes using 20-ish jobs of 5 restarts each:
+```
+for i in {1..20}; do echo $RANDOM >> RNGs; done; cat RNGs | sort --n | uniq > RNGs_uniq
+parallel  "./frictionless_latest.sif allInputMatricesRanked 5 3 {} >> Results_parallel" ::: < RNGs_uniq
+```
+
+
