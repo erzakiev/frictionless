@@ -19,6 +19,12 @@ void ConvertMatrixToRanks(vector<vector<double> >& expressionmatrix, const vecto
     
 }
 
+double round2dec(double var)
+{
+    double value = (int)(var * 100 + .5);
+    return (double)value / 100;
+}
+
 
 void RemoveGeneFromVector(int GeneToRemove, vector <int> &X){
     std::vector<int>::iterator position = std::find(X.begin(), X.end(), GeneToRemove);
