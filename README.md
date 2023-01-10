@@ -112,4 +112,4 @@ Program ended with exit code: 0
 ```
 
 
-Note: We recommend running the algorithm with multiple signature sizes `k`: 10, 20, 30, 40, 50, 100.
+Note: We recommend running the algorithm for the real applications with multiple signature sizes `k`: 10, 20, 30, 40, 50, 100.
