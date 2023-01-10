@@ -86,10 +86,10 @@ void readIn2dData(const char* filename, vector<vector<double> >& ranktable, vect
         if (line[0] == '#' || line.empty())
             // catch empty lines or comment lines
             continue;
-        if(!isdigit(line[0])){
+        //if(!isdigit(line[0])){
             ss >> charbuf;
             gene_names.push_back(charbuf);
-        }
+        //}
         
         vector<double> row;
         
