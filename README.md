@@ -5,7 +5,7 @@ A blackbox statistical optimization approach to find gene signatures of predefin
 ## Installation
 ### Pulling a [singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) container
 ```
-singularity pull --arch amd64 library://erzakiev/default/frictionless
+singularity pull library://erzakiev/default/frictionless
 ```
 and then run the `frictionless_latest.sif` as an executable:
 ```
