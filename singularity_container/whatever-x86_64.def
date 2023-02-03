@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+    apt-get -y update
+    apt-get -y install git
+    apt-get -y install g++
+    git clone https://github.com/erzakiev/frictionless.git ./frictionless
+    g++ -O3 ./frictionless/main.cpp -o frictionless.exe
+    mv frictionless.exe /usr/local/bin/frictionless.exe
+
+%runscript
+    frictionless.exe "$@"
